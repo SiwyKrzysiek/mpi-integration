@@ -38,10 +38,23 @@ int main(int argc, char **argv)
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
     MPI_Comm_rank(MPI_COMM_WORLD, &world_rank);
 
-    // printf("I'm process %d of %d and I'll integrate soon\n", world_rank, world_size);
+    if (argc != 4)
+    {
+        if (world_rank == 0)
+            puts("Invalid arguments.\nProgram interface: ./integrate begin end num_points");
+        exit(EXIT_FAILURE);
+    }
 
-    double result = integrate(x2, 0, 2, 100000);
-    printf("Result: %lf\n", result);
+    int begin = atoi(argv[1]);
+    int end = atoi(argv[2]);
+    int nodesNumber = atoi(argv[3]);
+
+    if (world_rank == 0)
+        puts("Program will integrate function y = x^");
+    double result = integrate(x2, begin, end, nodesNumber);
+
+    if (world_rank == 0)
+        printf("Result: %lf\n", result);
 
     MPI_Finalize();
     return EXIT_SUCCESS;
