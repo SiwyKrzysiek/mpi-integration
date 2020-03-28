@@ -29,3 +29,7 @@ Interfejs programu powinien wyglądać następująco:
 7. Wykonanie obliczeń w procesach „robotnikach”
 8. Przesłanie obliczeń cząstkowych do procesu głównego.
 9. Zsumowanie wszystkich wyników i wyświetlenie wyniku końcowego.
+
+## Realizacja zadania
+
+> Podczas pracy z _Open MPI_ zainstalowanym przy pomocy brew po zakończeniu prgramu pojaiwał się błąd. Pomogło ustawienei zmiennej środowiskowej `PMIX_MCA_gds=hash`
