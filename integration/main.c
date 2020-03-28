@@ -11,6 +11,7 @@ double x2(double x)
     return x * x;
 }
 
+// y = 1
 double const1(double x)
 {
     return 1;
@@ -63,7 +64,9 @@ double *generatePoints(const double start, const double end, const int pointsNum
 
 double integrateRange(double (*func)(double), const double *nodes, const int nodesNumber)
 {
+#ifdef DEBUG
     printf("Nodes number = %d\n", nodesNumber);
+#endif
     if (nodesNumber <= 1)
         return 0.;
 
@@ -75,8 +78,10 @@ double integrateRange(double (*func)(double), const double *nodes, const int nod
         double b = func(nodes[i]);
 
         double rectField = (a + b) * dx / 2.;
-        // fprintf(stderr, "Partial sum x0=%lf, x1=%lf, a=%lf, b=%lf, dx=%lf, sum=%lf\n",
-        //         nodes[i - 1], nodes[i], a, b, dx, rectField);
+#ifdef DEBUG
+        fprintf(stderr, "Partial sum x0=%lf, x1=%lf, a=%lf, b=%lf, dx=%lf, sum=%lf\n",
+                nodes[i - 1], nodes[i], a, b, dx, rectField);
+#endif
 
         sum += rectField;
     }
@@ -96,29 +101,27 @@ double integrate(double (*func)(double), double begin, double end, int num_point
         double partialSums[world_size];
         double *nodes = generatePoints(begin, end, num_points);
 
+#ifdef DEBUG
         fputs("Main process generated nodes\n", stderr);
-        // for (int i = 0; i < num_points; i++)
-        // {
-        //     printf("%lf\n", nodes[i]);
-        // }
-
+        for (int i = 0; i < num_points; i++)
+        {
+            printf("%lf\n", nodes[i]);
+        }
+#endif
         Pair *ranges = splitIntoRanges(num_points, world_size);
-        // printf("My range: [%d, %d)\n", myRange.a, myRange.b);
 
         // Send data to other processes
         for (int i = 1; i < world_size; i++)
         {
-            // printf("Range send to %d: [%d, %d)\n", i, ranges[i].a, ranges[i].b);
-
+#ifdef DEBUG
+            printf("Range send to %d: [%d, %d)\n", i, ranges[i].a, ranges[i].b);
+#endif
             int rangeLength = ranges[i].b - ranges[i].a;
             double *firstValue = nodes + ranges[i].a;
 
             MPI_Send(&rangeLength, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
             MPI_Send(firstValue, rangeLength, MPI_DOUBLE, i, 0, MPI_COMM_WORLD);
         }
-
-        // double chetedResult = integrateRange(func, nodes, num_points);
-        double chetedResult = -1;
 
         // Calculate my part
         partialSums[0] = integrateRange(func, nodes, ranges[0].b - ranges[0].a);
@@ -139,22 +142,15 @@ double integrate(double (*func)(double), double begin, double end, int num_point
         free(nodes);
         return sum;
     }
-    else
+    else // Worker process
     {
         int nodesNumber;
         MPI_Recv(&nodesNumber, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        // printf("Process %d -> nodesNumber = %d\n", world_rank, nodesNumber);
 
         double nodes[nodesNumber];
         MPI_Recv(nodes, nodesNumber, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
-        // for (int i = 0; i < nodesNumber; i++)
-        // {
-        //     printf("Process %d -> node[%d] = %lf\n", world_rank, i, nodes[i]);
-        // }
 
         double partialResult = integrateRange(func, nodes, nodesNumber);
-        // printf("Process %d -> partial sum = %lf\n", world_rank, partialResult);
-
         MPI_Send(&partialResult, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
     }
 
