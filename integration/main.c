@@ -50,7 +50,7 @@ int main(int argc, char **argv)
     int nodesNumber = atoi(argv[3]);
 
     if (world_rank == 0)
-        puts("Program will integrate function y = x^");
+        puts("Program will integrate function y = x^2");
     double result = integrate(x2, begin, end, nodesNumber);
 
     if (world_rank == 0)
