@@ -44,3 +44,29 @@ Po przygotowaniu podziału proces główny przesyła do wszystkich pozostałych 
 W między czasie procesy nie będące procesem głównym oczekują na dane przy pomocy funkcji `MPI_Recv()`.
 
 Po otrzymaniu danych, każdy proces wykonuje na nich funkcję `integrateRange()`, która liczy wartość całki korzystając z podanych punktów jako węzłów. Po zakończeniu obliczeń procesy przesyłają swoje wyniki do procesu głównego, gdzie są one sumowane do wartości całkowitej.
+
+### Uruchomienie programu
+
+Ponieważ program korzysta ze standardu _MPI_ wymaga odpowiedniego kompilatora oraz programu uruchamiającego. Pozwala to na łatwe utworzenie i zarządzanie pulą procesów.
+
+Przed uruchomieniem programu trzeba zainstalować `mpicc` oraz `mpirun`. W przypadku sytemu OS X można to zrobić poleceniem `brew install open-mpi`.
+
+Będąc **w katalogu ./integrate** program można łatwo zbudować przy pomocy narzędzia _make_.
+
+```bash
+make
+```
+
+W celu dodanie wyświetlenia szczegółowych informacji o działaniu programu można skorzystać z celu `make debug`.
+
+Uruchomienie programu do uruchomienia programu trzeba wykorzystać `mpiexec`.
+
+Przykładowe uruchomienie:
+
+```txt
+➜ mpiexec -n 4 ./integrate 0 2 10000
+Program will integrate function y = x^2
+Result: 2.665967
+```
+
+Program jest uruchomiony z 4 procesami, liczy całkę dla przedziału od 0 do 2 z wykorzystaniem 10000 węzłów.
