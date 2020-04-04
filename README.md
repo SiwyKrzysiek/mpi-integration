@@ -91,3 +91,10 @@ Realizacja dodatkowych zadań z iSoda.
 W celu przetestowania komunikacji grupowej napisany został program obliczający średnią wartoś liczby zwracanej przez generator pseudolosowy.
 
 Kod programu znajduje się w katalogu [additional_tasks/group_communication](./additional_tasks/group_communication]).
+
+Program wykorzystuje funkcję `MPI_Scatter()` do rozesłania części tablicy między podporgramy.
+Następnie każdy podprogram, razem z głównym, obliczają średnią cząstkową swojej części danych.
+
+Wyniki cząstkowe są sumowane i zwracane do procesu głównego przy pomocy funkcji `MPI_Reduce()`.
+
+Program kompiluje się i uruchamia analogicznie jak program główny.
