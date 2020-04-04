@@ -2,6 +2,17 @@
 
 Równoległe obliczanie całki oznaczonej z zastosowaniem metod numerycznych.
 
+## Spis treści
+
+- [Całkowanie z zastosowaniem standardu MPI](#całkowanie-z-zastosowaniem-standardu-mpi)
+  - [Spis treści](#spis-treści)
+  - [Treść zadania](#treść-zadania)
+    - [Zadania do wykonania w ramach ćwiczenia](#zadania-do-wykonania-w-ramach-ćwiczenia)
+  - [Realizacja zadania](#realizacja-zadania)
+    - [Uruchomienie programu](#uruchomienie-programu)
+  - [Zadania dodatkowe](#zadania-dodatkowe)
+    - [Napisanie programu z wykorzystaniem komunikacji grupowej](#napisanie-programu-z-wykorzystaniem-komunikacji-grupowej)
+
 ## Treść zadania
 
 Proszę policzyć przy pomocy metody prostokątów/trapezów/Simpsona (możecie Państwo wybrać metodę) całkę oznaczoną funkcji jednej zmiennej. Procedura całkowania powinna przyjmować: wskaźnik na całkowaną funkcję, początek i koniec przedziału całkowania oraz liczbę punktów dla których obliczana jest wartość funkcji. Oto jej nagłówek:
@@ -70,3 +81,13 @@ Result: 2.665967
 ```
 
 Program jest uruchomiony z 4 procesami, liczy całkę dla przedziału od 0 do 2 z wykorzystaniem 10000 węzłów.
+
+## Zadania dodatkowe
+
+Realizacja dodatkowych zadań z iSoda.
+
+### Napisanie programu z wykorzystaniem komunikacji grupowej
+
+W celu przetestowania komunikacji grupowej napisany został program obliczający średnią wartoś liczby zwracanej przez generator pseudolosowy.
+
+Kod programu znajduje się w katalogu [additional_tasks/group_communication](./additional_tasks/group_communication]).
