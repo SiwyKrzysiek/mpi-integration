@@ -61,7 +61,7 @@ int main(int argc, char const *argv[])
 
     if (world_rank == 0) // Pizza store
     {
-        MPI_Request request;
+        MPI_Request request, deliveryRequest;
         PizzaType orderedPizza;
         int requestComplite = 0;
         MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, &request);
@@ -76,8 +76,11 @@ int main(int argc, char const *argv[])
                 sleep(3);
                 printf("\033[0;31mPizzeria: %s is REDY!\033[0m\n", pizzaTypeToString(orderedPizza));
 
+                // Send redy pizza to customer
+                MPI_Isend(&orderedPizza, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, &request);
+
                 // Get redy for new order
-                MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, &request);
+                MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, &deliveryRequest);
             }
             else
             {
@@ -100,22 +103,27 @@ int main(int argc, char const *argv[])
             printf("Customer wants %s pizza\n", pizzaTypeToString(order));
 
             // Send request
-            MPI_Request request;
+            MPI_Request request, deliveryRequest;
             MPI_Isend(&order, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &request);
             printf("Customer placed his order\n");
+
+            MPI_Irecv(&order, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &deliveryRequest);
 
             int requestComplite = 0;
             while (!requestComplite)
             {
+
                 printf("Customer is doing his work\n");
                 sleep(1);
                 printf("Customer finished work and checks if his pizza is redy\n");
-
+                MPI_Test(&deliveryRequest, &requestComplite, MPI_STATUS_IGNORE);
             }
+
+            printf("\033[0;32mCustomer eats his %s pizza\033[0m\n", pizzaTypeToString(order));
+            sleep(3);
         }
 
     }
-
 
     MPI_Finalize();
     return 0;
