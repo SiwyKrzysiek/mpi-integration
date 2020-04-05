@@ -74,10 +74,22 @@ int main(int argc, char const *argv[])
     {
         while (true)
         {
-            // MPI_Isend()
             PizzaType order = choosePizza();
             printf("Customer wants %s pizza\n", pizzaTypeToString(order));
-            sleep(2);
+
+            // Send request
+            MPI_Request request;
+            MPI_Isend(&order, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &request);
+            printf("Customer placed his order\n");
+
+            int requestComplite = 0;
+            while (!requestComplite)
+            {
+                printf("Customer is doing his work\n");
+                sleep(3);
+                printf("Customer finished work and checks if his pizza is redy");
+
+            }
         }
 
     }
