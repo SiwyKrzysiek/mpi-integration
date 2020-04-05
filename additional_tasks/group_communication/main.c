@@ -52,7 +52,10 @@ int main(int argc, char const *argv[])
     if (world_rank == 0)
     {
         double finalAverage = finalSum / (double) world_size;
-        printf("Final average: %lf\n", finalAverage);
+        printf("Final average:  %lf\n", finalAverage);
+
+        double expectedValue = (double) RAND_MAX / 2.;
+        printf("Expected value: %lf\n", expectedValue);
     }
 
 
