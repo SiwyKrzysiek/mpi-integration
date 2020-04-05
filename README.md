@@ -91,7 +91,7 @@ Realizacja dodatkowych zadań z iSoda.
 
 W celu przetestowania komunikacji grupowej napisany został program obliczający średnią wartoś liczby zwracanej przez generator pseudolosowy.
 
-Kod programu znajduje się w katalogu [additional_tasks/group_communication](./additional_tasks/group_communication]).
+Kod programu znajduje się w katalogu [additional_tasks/group_communication](./additional_tasks/group_communication).
 
 Program wykorzystuje funkcję `MPI_Scatter()` do rozesłania części tablicy między podporgramy.
 Następnie każdy podprogram, razem z głównym, obliczają średnią cząstkową swojej części danych.
@@ -103,7 +103,7 @@ Program kompiluje się i uruchamia analogicznie jak program główny.
 ### Napisanie programu z wykorzystaniem komunikacji nieblokującej
 
 W celu poznania komunikacji nieblokującej napisany został prosty program symulujący restaurację dostarczającą pizze.
-Program znajduje się w katalogu [additional_tasks/non_blocking_comunication](./additional_tasks/non_blocking_comunication]).
+Program znajduje się w katalogu [additional_tasks/non_blocking_comunication](./additional_tasks/non_blocking_comunication).
 
 Za równo klient jak i pizzeria mają swoje zajęcia, które realizuję w oczekiwaniu na komunikację.
 Pizzeria jeśli nie ma zamówienia do realizacji zajmuje się klientami w lokali i tylko okresowo sprawdza czy są jakieś zamówienia.  
