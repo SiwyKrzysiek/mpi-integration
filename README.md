@@ -12,6 +12,7 @@ Równoległe obliczanie całki oznaczonej z zastosowaniem metod numerycznych.
     - [Uruchomienie programu](#uruchomienie-programu)
   - [Zadania dodatkowe](#zadania-dodatkowe)
     - [Napisanie programu z wykorzystaniem komunikacji grupowej](#napisanie-programu-z-wykorzystaniem-komunikacji-grupowej)
+    - [Napisanie programu z wykorzystaniem komunikacji nieblokującej](#napisanie-programu-z-wykorzystaniem-komunikacji-nieblokującej)
 
 ## Treść zadania
 
@@ -98,3 +99,12 @@ Następnie każdy podprogram, razem z głównym, obliczają średnią cząstkow
 Wyniki cząstkowe są sumowane i zwracane do procesu głównego przy pomocy funkcji `MPI_Reduce()`.
 
 Program kompiluje się i uruchamia analogicznie jak program główny.
+
+### Napisanie programu z wykorzystaniem komunikacji nieblokującej
+
+W celu poznania komunikacji nieblokującej napisany został prosty program symulujący restaurację dostarczającą pizze.
+Program znajduje się w katalogu [additional_tasks/non_blocking_comunication](./additional_tasks/non_blocking_comunication]).
+
+Za równo klient jak i pizzeria mają swoje zajęcia, które realizuję w oczekiwaniu na komunikację.
+Pizzeria jeśli nie ma zamówienia do realizacji zajmuje się klientami w lokali i tylko okresowo sprawdza czy są jakieś zamówienia.  
+Klient w oczekiwaniu na zamówienie oddaje się pracy. Tylko raz na jakiś czas wychodzi na ganek swojego domu i sprawdza czy nie pojawiła się tam pizza 🍕.
