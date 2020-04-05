@@ -33,9 +33,21 @@ const char* pizzaTypeToString(PizzaType pizza)
     }
 }
 
+// Random number from range [from, to)
+int randomInt(int from, int to)
+{
+    return rand() % (to - from ) + from;
+}
+
+PizzaType choosePizza()
+{
+    return (PizzaType) randomInt(0, 4);
+}
+
 int main(int argc, char const *argv[])
 {
     MPI_Init(NULL, NULL);
+    srand(time(NULL));
 
     int world_size, world_rank;
     MPI_Comm_size(MPI_COMM_WORLD, &world_size);
@@ -49,6 +61,10 @@ int main(int argc, char const *argv[])
 
     if (world_rank == 0) // Pizza store
     {
+        while (true)
+        {
+            sleep(1); // No one works
+        }
 
     }
     if (world_rank == 1) // Customer
@@ -56,6 +72,9 @@ int main(int argc, char const *argv[])
         while (true)
         {
             // MPI_Isend()
+            PizzaType order = choosePizza();
+            printf("Customer wants %s\n", pizzaTypeToString(order));
+            sleep(2);
         }
 
     }
