@@ -63,7 +63,10 @@ int main(int argc, char const *argv[])
     {
         while (true)
         {
-            sleep(1); // No one works
+            puts("\033[0;31mPizzeria is busy doing business...\033[0m");
+            sleep(3);
+            puts("\033[0;31mPizzeria checks for placed orders\033[0m");
+            puts("\033[0;31mNo orders are currently placed\033[0m");
         }
 
     }
@@ -73,7 +76,7 @@ int main(int argc, char const *argv[])
         {
             // MPI_Isend()
             PizzaType order = choosePizza();
-            printf("Customer wants %s\n", pizzaTypeToString(order));
+            printf("Customer wants %s pizza\n", pizzaTypeToString(order));
             sleep(2);
         }
 
