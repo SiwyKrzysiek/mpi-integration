@@ -64,25 +64,26 @@ int main(int argc, char const *argv[])
 
     if (world_rank == 0) // Pizza store
     {
-        MPI_Request request, deliveryRequest;
-        PizzaType orderedPizza;
+        MPI_Request orderRequest, deliveryRequest;
+        PizzaType orderedPizza, redyPizza;
         int requestComplite = 0;
-        MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, pizzaOrderTag, MPI_COMM_WORLD, &request);
+        MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, pizzaOrderTag, MPI_COMM_WORLD, &orderRequest);
 
         while (true)
         {
-            MPI_Test(&request, &requestComplite, MPI_STATUS_IGNORE);
+            MPI_Test(&orderRequest, &requestComplite, MPI_STATUS_IGNORE);
             if (requestComplite)
             {
                 printf("\033[0;31mPizzeria is preparing %s\033[0m\n", pizzaTypeToString(orderedPizza));
                 sleep(3);
+                redyPizza = orderedPizza;
                 printf("\033[0;31mPizzeria: %s is REDY!\033[0m\n", pizzaTypeToString(orderedPizza));
 
                 // Send redy pizza to customer
-                MPI_Isend(&orderedPizza, 1, MPI_INT, 1, pizzaDeliveryTag, MPI_COMM_WORLD, &request);
+                MPI_Isend(&redyPizza, 1, MPI_INT, 1, pizzaDeliveryTag, MPI_COMM_WORLD, &deliveryRequest);
 
                 // Get redy for new order
-                MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, pizzaOrderTag, MPI_COMM_WORLD, &deliveryRequest);
+                MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, pizzaOrderTag, MPI_COMM_WORLD, &orderRequest);
             }
             else
             {
