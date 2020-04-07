@@ -59,17 +59,19 @@ int main(int argc, char const *argv[])
         exit(EXIT_FAILURE);
     }
 
+    const int pizzaOrderTag = 0;
+    const int pizzaDeliveryTag = 1;
+
     if (world_rank == 0) // Pizza store
     {
         MPI_Request request, deliveryRequest;
         PizzaType orderedPizza;
         int requestComplite = 0;
-        MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, &request);
+        MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, pizzaOrderTag, MPI_COMM_WORLD, &request);
 
         while (true)
         {
             MPI_Test(&request, &requestComplite, MPI_STATUS_IGNORE);
-            // MPI_Recv(&orderedPizza, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
             if (requestComplite)
             {
                 printf("\033[0;31mPizzeria is preparing %s\033[0m\n", pizzaTypeToString(orderedPizza));
@@ -77,10 +79,10 @@ int main(int argc, char const *argv[])
                 printf("\033[0;31mPizzeria: %s is REDY!\033[0m\n", pizzaTypeToString(orderedPizza));
 
                 // Send redy pizza to customer
-                MPI_Isend(&orderedPizza, 1, MPI_INT, 1, 1, MPI_COMM_WORLD, &request);
+                MPI_Isend(&orderedPizza, 1, MPI_INT, 1, pizzaDeliveryTag, MPI_COMM_WORLD, &request);
 
                 // Get redy for new order
-                MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, &deliveryRequest);
+                MPI_Irecv(&orderedPizza, 1, MPI_INT, 1, pizzaOrderTag, MPI_COMM_WORLD, &deliveryRequest);
             }
             else
             {
@@ -104,10 +106,10 @@ int main(int argc, char const *argv[])
 
             // Send request
             MPI_Request request, deliveryRequest;
-            MPI_Isend(&order, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, &request);
+            MPI_Isend(&order, 1, MPI_INT, 0, pizzaOrderTag, MPI_COMM_WORLD, &request);
             printf("Customer placed his order\n");
 
-            MPI_Irecv(&order, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &deliveryRequest);
+            MPI_Irecv(&order, 1, MPI_INT, 0, pizzaDeliveryTag, MPI_COMM_WORLD, &deliveryRequest);
 
             int requestComplite = 0;
             while (!requestComplite)
