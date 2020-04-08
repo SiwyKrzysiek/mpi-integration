@@ -134,7 +134,6 @@ double integrate(double (*func)(double), double begin, double end, int num_point
             int rangeLength = ranges[i].b - ranges[i].a;
             double *firstValue = nodes + ranges[i].a;
 
-            // MPI_Send(firstValue, rangeLength, MPI_DOUBLE, i, 0, MPI_COMM_WORLD);
             MPI_Isend(firstValue, rangeLength, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, requestPtr);
             MPI_Request_free(requestPtr); // Free resources as soon as request will be done
         }
@@ -160,13 +159,18 @@ double integrate(double (*func)(double), double begin, double end, int num_point
     }
     else // Worker process
     {
-        int nodesNumber;
-        MPI_Status status;
-        MPI_Probe(0, 0, MPI_COMM_WORLD, &status);
-        MPI_Get_count(&status, MPI_DOUBLE, &nodesNumber);
+        const int maxPoints = num_points;
 
-        double nodes[nodesNumber];
-        MPI_Recv(nodes, nodesNumber, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Request reciveRequest;
+        MPI_Status status;
+        int requestRedyFlag = 0;
+
+        double nodes[maxPoints]; // Buffer of max size. Cannot check for message length before Irecv()
+        MPI_Irecv(nodes, maxPoints, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &reciveRequest);
+        MPI_Wait(&reciveRequest, &status);
+
+        int nodesNumber;
+        MPI_Get_count(&status, MPI_DOUBLE, &nodesNumber);
 
         double partialResult = integrateRange(func, nodes, nodesNumber);
         MPI_Send(&partialResult, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
