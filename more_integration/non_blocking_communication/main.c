@@ -173,7 +173,9 @@ double integrate(double (*func)(double), double begin, double end, int num_point
         MPI_Get_count(&status, MPI_DOUBLE, &nodesNumber);
 
         double partialResult = integrateRange(func, nodes, nodesNumber);
-        MPI_Send(&partialResult, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD);
+        MPI_Request sendRequest;
+        MPI_Isend(&partialResult, 1, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, &sendRequest);
+        MPI_Request_free(&sendRequest);
     }
 
     return -1;
