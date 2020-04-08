@@ -13,6 +13,8 @@ Równoległe obliczanie całki oznaczonej z zastosowaniem metod numerycznych.
   - [Zadania dodatkowe](#zadania-dodatkowe)
     - [Napisanie programu z wykorzystaniem komunikacji grupowej](#napisanie-programu-z-wykorzystaniem-komunikacji-grupowej)
     - [Napisanie programu z wykorzystaniem komunikacji nieblokującej](#napisanie-programu-z-wykorzystaniem-komunikacji-nieblokującej)
+  - [Nowe zadania](#nowe-zadania)
+    - [Całkowanie z wykorzystaniem komunikacji grupowej](#całkowanie-z-wykorzystaniem-komunikacji-grupowej)
 
 ## Treść zadania
 
@@ -108,3 +110,17 @@ Program znajduje się w katalogu [additional_tasks/non_blocking_comunication](./
 Za równo klient jak i pizzeria mają swoje zajęcia, które realizuję w oczekiwaniu na komunikację.
 Pizzeria jeśli nie ma zamówienia do realizacji zajmuje się klientami w lokali i tylko okresowo sprawdza czy są jakieś zamówienia.  
 Klient w oczekiwaniu na zamówienie oddaje się pracy. Tylko raz na jakiś czas wychodzi na ganek swojego domu i sprawdza czy nie pojawiła się tam pizza 🍕.
+
+## Nowe zadania
+
+Ponowna implementacja algorytmu całkującego z wykorzystaniem różnych metod komunikacji.  
+Sekcja dodana po sprecyzowaniu wymagań 07.04.2020.
+
+### Całkowanie z wykorzystaniem komunikacji grupowej
+
+Oryginalny program został zmodyfikowany tak, by korzystał z funkcji `MPI_Scatter()` oraz `MPI_Reduce()`.
+Bardzo dobrze pasują one do realizowanego problemu, co pozwoliło znacznie skrócić i uprościć oryginalny kod.
+
+Program znajduje się w katalogu [more_integration/group_communication](./more_integration/group_communication). Zmianom uległa funkcja `integrate()`, której implementacja zaczyna się w **linii 115**.
+
+Uruchomienie programu jest takie same jak programu głównego i jest opisane w sekcji [Uruchomienie programu](#Uruchomienie-programu).
