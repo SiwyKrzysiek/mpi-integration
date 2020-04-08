@@ -89,6 +89,8 @@ Program jest uruchomiony z 4 procesami, liczy całkę dla przedziału od 0 do 2 
 ## Zadania dodatkowe
 
 Realizacja dodatkowych zadań z iSoda.
+Przy pierwszym podejściu do tego zadania zrozumiałem, że należy napisać dowolne programy dobrze obrazujące wykorzystanie podanych rodzajów komunikacji.
+Wersje programu całkującego z wykorzystaniem różnych metod komunikacji znajdują się w sekcji [Nowe zadania](#Nowe-zadania).
 
 ### Napisanie programu z wykorzystaniem komunikacji grupowej
 
@@ -96,7 +98,7 @@ W celu przetestowania komunikacji grupowej napisany został program obliczający
 
 Kod programu znajduje się w katalogu [additional_tasks/group_communication](./additional_tasks/group_communication).
 
-Program wykorzystuje funkcję `MPI_Scatter()` do rozesłania części tablicy między podporgramy.
+Program wykorzystuje funkcję `MPI_Scatter()` do rozesłania części tablicy między podppoorgramy.
 Następnie każdy podprogram, razem z głównym, obliczają średnią cząstkową swojej części danych.
 
 Wyniki cząstkowe są sumowane i zwracane do procesu głównego przy pomocy funkcji `MPI_Reduce()`.
