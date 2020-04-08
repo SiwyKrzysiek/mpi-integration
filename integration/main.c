@@ -132,8 +132,6 @@ double integrate(double (*func)(double), double begin, double end, int num_point
             int rangeLength = ranges[i].b - ranges[i].a;
             double *firstValue = nodes + ranges[i].a;
 
-            // Could use MPI_Probe instead
-            MPI_Send(&rangeLength, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
             MPI_Send(firstValue, rangeLength, MPI_DOUBLE, i, 0, MPI_COMM_WORLD);
         }
 
@@ -159,7 +157,9 @@ double integrate(double (*func)(double), double begin, double end, int num_point
     else // Worker process
     {
         int nodesNumber;
-        MPI_Recv(&nodesNumber, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Status status;
+        MPI_Probe(0, 0, MPI_COMM_WORLD, &status);
+        MPI_Get_count(&status, MPI_DOUBLE, &nodesNumber);
 
         double nodes[nodesNumber];
         MPI_Recv(nodes, nodesNumber, MPI_DOUBLE, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
