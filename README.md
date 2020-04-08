@@ -100,7 +100,7 @@ Następnie każdy podprogram, razem z głównym, obliczają średnią cząstkow
 
 Wyniki cząstkowe są sumowane i zwracane do procesu głównego przy pomocy funkcji `MPI_Reduce()`.
 
-Program kompiluje się i uruchamia analogicznie jak program główny.
+Program kompiluje się i uruchamia analogicznie jak program główny, ale nie przyjmuje on argumentów.
 
 ### Napisanie programu z wykorzystaniem komunikacji nieblokującej
 
@@ -110,6 +110,8 @@ Program znajduje się w katalogu [additional_tasks/non_blocking_comunication](./
 Za równo klient jak i pizzeria mają swoje zajęcia, które realizuję w oczekiwaniu na komunikację.
 Pizzeria jeśli nie ma zamówienia do realizacji zajmuje się klientami w lokali i tylko okresowo sprawdza czy są jakieś zamówienia.  
 Klient w oczekiwaniu na zamówienie oddaje się pracy. Tylko raz na jakiś czas wychodzi na ganek swojego domu i sprawdza czy nie pojawiła się tam pizza 🍕.
+
+Program kompiluje się i uruchamia analogicznie jak program główny, ale nie przyjmuje on argumentów.
 
 ## Nowe zadania
 
