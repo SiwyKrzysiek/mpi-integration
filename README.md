@@ -15,6 +15,7 @@ Równoległe obliczanie całki oznaczonej z zastosowaniem metod numerycznych.
     - [Napisanie programu z wykorzystaniem komunikacji nieblokującej](#napisanie-programu-z-wykorzystaniem-komunikacji-nieblokującej)
   - [Nowe zadania](#nowe-zadania)
     - [Całkowanie z wykorzystaniem komunikacji grupowej](#całkowanie-z-wykorzystaniem-komunikacji-grupowej)
+    - [Całkowanie z wykorzystaniem komunikacji nieblokującej](#całkowanie-z-wykorzystaniem-komunikacji-nieblokującej)
 
 ## Treść zadania
 
@@ -124,5 +125,22 @@ Oryginalny program został zmodyfikowany tak, by korzystał z funkcji `MPI_Scatt
 Bardzo dobrze pasują one do realizowanego problemu, co pozwoliło znacznie skrócić i uprościć oryginalny kod.
 
 Program znajduje się w katalogu [more_integration/group_communication](./more_integration/group_communication). Zmianom uległa funkcja `integrate()`, której implementacja zaczyna się w **linii 115**.
+
+Uruchomienie programu jest takie same jak programu głównego i jest opisane w sekcji [Uruchomienie programu](#Uruchomienie-programu), z tym wyjątkiem, że z uwagi na zastosowanie `MPI_Scatter()` liczba punktów całkowania musi być podzielna przez liczbę procesów.
+
+### Całkowanie z wykorzystaniem komunikacji nieblokującej
+
+Oryginalny program został zmodyfikowany tak, by korzystał z funkcji `MPI_Isend()` oraz `MPI_Irecv()` zamiast ich blokujących odpowiedników.
+Uważam, że zadany problem nie wymaga komunikacji nieblokującej i jej zastosowanie było zbędne.
+Mimo tego spróbowałem wykorzystać zalety płynące z tej formy komunikacji.
+
+Program znajduje się w katalogu [more_integration/non_blocking_communication](./more_integration/non_blocking_communication). Zmianom uległa funkcja `integrate()`, której implementacja zaczyna się w **linii 105**.
+
+Zastosowanie komunikacji nieblokującej umożliwiło to, że główny proces nie musi czekać z rozpoczęciem obliczeń na odebranie danych przez inne procesy.
+
+Bardzo ciekawie wyszło też odbieranie wyników cząstkowych od procesów.  
+Dzięki zastosowaniu funkcji `MPI_Waitany()` proces główny może od razu dodać do sumy całkowitej wynik cząstkowy procesu, który akurat skończył pracę. Pozwala to na zmniejszenie opóźnienia wynikającego z czekania zawsze na proces o najmniejszej randze.
+
+Dla procesów wykonujących jedynie obliczenia lepiej sprawdza się komunikacja blokująca, ponieważ nie maja one innych zadań, które mogłyby realizować w czasie oczekiwania na komunikację.
 
 Uruchomienie programu jest takie same jak programu głównego i jest opisane w sekcji [Uruchomienie programu](#Uruchomienie-programu).
