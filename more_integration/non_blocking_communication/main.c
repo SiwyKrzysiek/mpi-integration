@@ -124,18 +124,17 @@ double integrate(double (*func)(double), double begin, double end, int num_point
         Pair *ranges = splitIntoRanges(num_points, world_size);
 
         // Send data to other processes
-        MPI_Request sendRequests[world_size - 1];
         for (int i = 1; i < world_size; i++)
         {
 #ifdef DEBUG
             printf("Range send to %d: [%d, %d)\n", i, ranges[i].a, ranges[i].b);
 #endif
-            MPI_Request *requestPtr = &sendRequests[i-1];
+            MPI_Request request;
             int rangeLength = ranges[i].b - ranges[i].a;
             double *firstValue = nodes + ranges[i].a;
 
-            MPI_Isend(firstValue, rangeLength, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, requestPtr);
-            MPI_Request_free(requestPtr); // Free resources as soon as request will be done
+            MPI_Isend(firstValue, rangeLength, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &request);
+            MPI_Request_free(&request); // Free resources as soon as request will be done
         }
 
         // Calculate my part without waiting
