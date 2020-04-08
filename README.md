@@ -108,7 +108,7 @@ Program kompiluje się i uruchamia analogicznie jak program główny, ale nie pr
 ### Napisanie programu z wykorzystaniem komunikacji nieblokującej
 
 W celu poznania komunikacji nieblokującej napisany został prosty program symulujący restaurację dostarczającą pizze.
-Program znajduje się w katalogu [additional_tasks/non_blocking_comunication](./additional_tasks/non_blocking_comunication).
+Program znajduje się w katalogu [additional_tasks/non_blocking_communication](./additional_tasks/non_blocking_communication).
 
 Za równo klient jak i pizzeria mają swoje zajęcia, które realizuję w oczekiwaniu na komunikację.
 Pizzeria jeśli nie ma zamówienia do realizacji zajmuje się klientami w lokali i tylko okresowo sprawdza czy są jakieś zamówienia.  
