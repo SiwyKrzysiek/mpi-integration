@@ -2,6 +2,8 @@
 
 Równoległe obliczanie całki oznaczonej z zastosowaniem metod numerycznych.
 
+<!-- Link do repozytorium: https://github.com/SiwyKrzysiek/mpi-integration -->
+
 ## Spis treści
 
 - [Całkowanie z zastosowaniem standardu MPI](#całkowanie-z-zastosowaniem-standardu-mpi)
