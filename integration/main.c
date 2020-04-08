@@ -132,6 +132,7 @@ double integrate(double (*func)(double), double begin, double end, int num_point
             int rangeLength = ranges[i].b - ranges[i].a;
             double *firstValue = nodes + ranges[i].a;
 
+            // Could use MPI_Probe instead
             MPI_Send(&rangeLength, 1, MPI_INT, i, 0, MPI_COMM_WORLD);
             MPI_Send(firstValue, rangeLength, MPI_DOUBLE, i, 0, MPI_COMM_WORLD);
         }
