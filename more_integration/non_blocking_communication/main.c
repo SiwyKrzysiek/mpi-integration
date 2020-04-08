@@ -111,7 +111,6 @@ double integrate(double (*func)(double), double begin, double end, int num_point
 
     if (world_rank == 0) // Main process
     {
-        double partialSums[world_size];
         double *nodes = generatePoints(begin, end, num_points);
 
 #ifdef DEBUG
@@ -138,18 +137,23 @@ double integrate(double (*func)(double), double begin, double end, int num_point
         }
 
         // Calculate my part without waiting
+        double partialSums[world_size];
         partialSums[0] = integrateRange(func, nodes, ranges[0].b - ranges[0].a);
 
-        // Receive results
+        // Initialize receiving
+        MPI_Request reciveRequests[world_size-1];
         for (int i = 1; i < world_size; i++)
         {
-            MPI_Recv(&partialSums[i], 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+            MPI_Irecv(&partialSums[i], 1, MPI_DOUBLE, i, 0, MPI_COMM_WORLD, &reciveRequests[i-1]);
         }
 
-        double sum = 0.;
-        for (int i = 0; i < world_size; i++)
+        // Get partial results
+        double sum = partialSums[0];
+        for (int i = 1; i < world_size; i++)
         {
-            sum += partialSums[i];
+            int finishedRequestId;
+            MPI_Waitany(world_size-1, reciveRequests, &finishedRequestId, MPI_STATUS_IGNORE);
+            sum += partialSums[finishedRequestId+1];
         }
 
         free(ranges);
