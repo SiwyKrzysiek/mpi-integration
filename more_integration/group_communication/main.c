@@ -4,8 +4,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "pair.h"
-#include "utils.h"
 
 // y = x^2
 double x2(double x)
