@@ -15,6 +15,7 @@ Równoległe obliczanie całki oznaczonej z zastosowaniem metod numerycznych.
   - [Zadania dodatkowe](#zadania-dodatkowe)
     - [Napisanie programu z wykorzystaniem komunikacji grupowej](#napisanie-programu-z-wykorzystaniem-komunikacji-grupowej)
     - [Napisanie programu z wykorzystaniem komunikacji nieblokującej](#napisanie-programu-z-wykorzystaniem-komunikacji-nieblokującej)
+    - [Uruchomienie programu na kilku maszynach](#uruchomienie-programu-na-kilku-maszynach)
   - [Nowe zadania](#nowe-zadania)
     - [Całkowanie z wykorzystaniem komunikacji grupowej](#całkowanie-z-wykorzystaniem-komunikacji-grupowej)
     - [Całkowanie z wykorzystaniem komunikacji nieblokującej](#całkowanie-z-wykorzystaniem-komunikacji-nieblokującej)
@@ -117,6 +118,25 @@ Pizzeria jeśli nie ma zamówienia do realizacji zajmuje się klientami w lokali
 Klient w oczekiwaniu na zamówienie oddaje się pracy. Tylko raz na jakiś czas wychodzi na ganek swojego domu i sprawdza czy nie pojawiła się tam pizza 🍕.
 
 Program kompiluje się i uruchamia analogicznie jak program główny, ale nie przyjmuje on argumentów.
+
+### Uruchomienie programu na kilku maszynach
+
+Przy próbie realizacji zadania wzorowałem się artykułem [Running an MPI Cluster within a LAN](https://mpitutorial.com/tutorials/running-an-mpi-cluster-within-a-lan/).
+
+Do uruchomienia programu mpi na kilku maszynach ciałem wykorzystać dwie maszyny wirtualne Ubuntu.
+
+Na początek zadbałem o komunikację między maszynami. W tym celu podłączyłem je interfejsem mostkowym do sieci gospodarza.
+Umożliwiłem również komunikację shh bez podawania hasła przy pomocy kluczy rsa.
+
+![Screen](screens/Screen3.png)
+
+Następnie skonfigurowałem udostępnianie katalogu cloud przy pomocy nfs.
+
+Niestety przy próbie uruchomienia programu na 2 maszynach wystąpił błąd, którego nie byłem w stanie rozwiązać.
+
+![Screen](screens/Screen1.png)
+
+Niestety nie udało mi się wykonać tego zadania, zyskałem jednak wiedzę, jak przebiega proces wykonywania programu na wielu maszynach w standardzie MPI.
 
 ## Nowe zadania
 
